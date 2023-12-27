@@ -1,12 +1,13 @@
-
+#include <bits/stdc++.h>
 #include <stdio.h>
 #include <stdlib.h>
-
+using namespace std;
 void insertOrdered(int *arr, int size, int value);
 
 void printArray(int *arr, int size);
 
 int main(void) {
+	freopen("input.txt", "r", stdin);
 	printf("Enter array size: ");
 	int size = 0;
 	if (scanf("%d", &size) != 1) {
@@ -17,7 +18,7 @@ int main(void) {
 		exit(EXIT_FAILURE);
 	}
 
-	int *arr = malloc((size + 1) * sizeof(int));
+	int *arr = new int[size + 1];
 	if (arr == NULL) {
 		fprintf(stderr, "error: out of memory\n");
 		exit(EXIT_FAILURE);
@@ -60,6 +61,9 @@ int main(void) {
 
 void insertOrdered(int *arr, int size, int value) {
 	// TODO
+	arr[size] = value;
+	sort(arr, arr + size + 1);
+	
 }
 
 ////////////////////////////////////////////////////////////////////////

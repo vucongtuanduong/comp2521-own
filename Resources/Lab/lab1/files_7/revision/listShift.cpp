@@ -1,7 +1,7 @@
-
+#include <bits/stdc++.h>
 #include <stdio.h>
 #include <stdlib.h>
-
+using namespace std;
 struct node {
 	int value;
 	struct node *next;
@@ -15,6 +15,7 @@ void printList(struct node *list);
 void freeList(struct node *list);
 
 int main(void) {
+	freopen("input.txt", "r", stdin);
 	printf("Enter list size: ");
 	int size = 0;
 	if (scanf("%d", &size) != 1) {
@@ -58,7 +59,32 @@ int main(void) {
 
 struct node *shift(struct node *list, int n) {
 	// TODO
-	return list;
+	node *temp = list;
+	int count = 0;
+	while (temp != NULL) {
+		count++;
+		temp = temp->next;
+	}
+	int x = n % count;
+	int y = count - x;
+	if (x == 0) {
+		return list;
+
+	} else {
+		node *temp1 = list;
+		node *temp2 = list;
+		for (int i = 0; i < y - 1; i++) {
+			temp1 = temp1->next;
+		}
+		list = temp1->next;
+		temp1->next = NULL;
+		temp1 = list;
+		while (temp1->next != NULL) {
+			temp1 = temp1->next;
+		}
+		temp1->next = temp2;
+		return list;
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -74,27 +100,27 @@ struct node *readList(int size) {
 			exit(EXIT_FAILURE);
 		}
 
-		struct node *new = newNode(value);
+		struct node *newP = newNode(value);
 		if (list == NULL) {
-			list = new;
+			list = newP;
 		} else {
-			curr->next = new;
+			curr->next = newP;
 		}
-		curr = new;
+		curr = newP;
 	}
 	return list;
 }
 
 struct node *newNode(int value) {
-	struct node *new = malloc(sizeof(struct node));
-	if (new == NULL) {
+	struct node *newP = new node;
+	if (newP == NULL) {
 		fprintf(stderr, "error: out of memory\n");
 		exit(EXIT_FAILURE);
 	}
 
-	new->value = value;
-	new->next = NULL;
-	return new;
+	newP->value = value;
+	newP->next = NULL;
+	return newP;
 }
 
 void printList(struct node *list) {

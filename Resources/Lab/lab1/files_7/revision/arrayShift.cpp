@@ -1,4 +1,4 @@
-
+#include <bits/stdc++.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -17,7 +17,7 @@ int main(void) {
 		exit(EXIT_FAILURE);
 	}
 
-	int *arr = malloc(size * sizeof(int));
+	int *arr = new int[size];
 	if (arr == NULL) {
 		fprintf(stderr, "error: out of memory\n");
 		exit(EXIT_FAILURE);
@@ -60,6 +60,23 @@ int main(void) {
 
 void shift(int *arr, int size, int n) {
 	// TODO
+	
+	int *b = new int[size];
+	for (int i = 0; i < size; i++) {
+		b[i] = arr[i];
+	}
+	int x = n % size;
+	if (x == 0) {
+		return;
+	}
+	int t = size - x;
+	int j = 0;
+	for (int i = t; i < size; i++) {
+		arr[j++] = b[i];
+	}
+	for (int i = 0; i < t; i++) {
+		arr[j++] = b[i];
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -75,4 +92,3 @@ void printArray(int *arr, int size) {
 	}
 	printf("]\n");
 }
-

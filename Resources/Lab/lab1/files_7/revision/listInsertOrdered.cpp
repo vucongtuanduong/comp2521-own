@@ -1,7 +1,7 @@
-
+#include <bits/stdc++.h>
 #include <stdio.h>
 #include <stdlib.h>
-
+using namespace std;	
 struct node {
 	int value;
 	struct node *next;
@@ -15,6 +15,7 @@ void printList(struct node *list);
 void freeList(struct node *list);
 
 int main(void) {
+	freopen("input.txt", "r", stdin);
 	printf("Enter list size: ");
 	int size = 0;
 	if (scanf("%d", &size) != 1) {
@@ -55,6 +56,26 @@ int main(void) {
 
 struct node *insertOrdered(struct node *list, int value) {
 	// TODO
+	node *temp = list;
+	node *curr = list;
+	while (temp->value < value && temp->next != NULL) {
+		curr = temp;
+		temp  = temp->next;
+	}
+	if (temp->value < value) {
+		temp->next = newNode(value);
+	}
+	else {
+		node *newNodes = new node;
+		newNodes->value = value;
+		newNodes->next = temp;
+		if (temp == list) {
+			list = newNodes;
+		}
+		else {
+			curr->next = newNodes;
+		}
+	}
 	return list;
 }
 
@@ -74,27 +95,27 @@ struct node *readList(int size) {
 			exit(EXIT_FAILURE);
 		}
 
-		struct node *new = newNode(value);
+		struct node *newN = newNode(value);
 		if (list == NULL) {
-			list = new;
+			list = newN;
 		} else {
-			curr->next = new;
+			curr->next = newN;
 		}
-		curr = new;
+		curr = newN;
 	}
 	return list;
 }
 
 struct node *newNode(int value) {
-	struct node *new = malloc(sizeof(struct node));
-	if (new == NULL) {
+	struct node *newN = new node;
+	if (newN == NULL) {
 		fprintf(stderr, "error: out of memory\n");
 		exit(EXIT_FAILURE);
 	}
 
-	new->value = value;
-	new->next = NULL;
-	return new;
+	newN->value = value;
+	newN->next = NULL;
+	return newN;
 }
 
 void printList(struct node *list) {
