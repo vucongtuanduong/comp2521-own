@@ -14,6 +14,8 @@ void selectionSort(Item *a, int l, int r);
 void bubbleSort(Item *a, int l, int r);
 void insertionSort(Item *a, int l, int r);
 void shellSort(Item *a, int l, int r);
+void mergeSort(Item *a, int l, int r);
+static void merge(Item items[], int lo, int mid, int hi);
 int main () {
     freopen("input.txt", "r", stdin);   
     char choice;
@@ -29,7 +31,7 @@ int main () {
 		case 'b': bubbleSort(items, 0, n - 1);             break;
 		case 'i': insertionSort(items, 0, n - 1);          break;
 		case 'h': shellSort(items, 0, n - 1);              break;
-		// case 'm': mergeSort(items, 0, n - 1);              break;
+		case 'm': mergeSort(items, 0, n - 1);              break;
 		// case 'N': naiveQuickSort(items, 0, n - 1);         break;
 		// case 'M': medianOfThreeQuickSort(items, 0, n - 1); break;
 		// case 'R':
@@ -192,4 +194,74 @@ void shellSort(Item *a, int l, int r) {
     -adaptive: shell sort applies a generalisation of insertion sort(which is adaptive)
     -in-place: sorting is done within original array; does not use temporary arrays
     */
+}
+void mergeSort(Item *a, int l, int r) {
+    //divide-and-conquer sorting algorithm
+
+    //time complexity of splitting the array is O(1)-we calculate the midpoint of the array
+    /*
+    time complexity of merging two sorted subarrays is O(n), where n is the total number of elements in both subarrays
+    therefore:
+        -merging two subarrays of size 1 takes 2 steps
+        -merging two subarrays of size 2 takes 4 steps
+
+        -merging two subarrays of size n/2 takes n steps
+    */
+    if (l >= r) {
+        return ;
+    }
+    int mid = (l + r) / 2;
+    mergeSort(a, l, mid);
+    mergeSort(a, mid + 1, r);
+    //merge two sorted subarrays
+    merge(a, l, mid, r);
+
+    /*
+    split: n-1 splits (log2N levels of splitting)- O(n)
+    merge: we have to merge n numbers exactly log2N times- O(nlogn)
+    */
+
+    /*
+    analysis: merge sort splits array into equal-sized partitions halving at each level=> log2N levels
+    -at each level requires <= N comparisons
+    -therefore, time complexity is O(nlogn):for every case
+    
+    */
+
+    /*
+    properties: 
+    -stable: due to taking from left subarray if items are equal during merge
+    -non-adaptive: merge sort performs the same steps regardless of sortedness of original array, O(nlogn) on average
+    -not in-place: merge sort requires a temporary array of size n, merge sort also uses O(logn) stack space for recursion
+    
+    */
+
+}
+static void merge(Item items[], int lo, int mid, int hi)
+{
+	Item *tmp = malloc((hi - lo + 1) * sizeof(Item));
+
+	int i = lo;
+	int j = mid + 1;
+	int k = 0;
+
+	// Scan both segments, copying to `tmp'.
+	while (i <= mid && j <= hi) {
+		if (le(items[i], items[j])) {
+			tmp[k++] = items[i++];
+		} else {
+			tmp[k++] = items[j++];
+		}
+	}
+
+	// Copy items from unfinished segment.
+	while (i <= mid) tmp[k++] = items[i++];
+	while (j <= hi) tmp[k++] = items[j++];
+
+	// Copy `tmp' back to main array.
+	for (i = lo, k = 0; i <= hi; i++, k++) {
+		items[i] = tmp[k];
+	}
+
+	free(tmp);
 }
