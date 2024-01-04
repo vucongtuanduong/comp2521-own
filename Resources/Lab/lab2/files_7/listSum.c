@@ -14,13 +14,14 @@ struct list {
 };
 
 int listSum(struct list *list);
-
+int doListSum(struct node *curr);
 struct list *readList(int size);
 struct node *newNode(int value);
 void printList(struct list *l);
 void freeList(struct list *l);
 
 int main(void) {
+	freopen("input.txt", "r", stdin);
 	printf("Enter list size: ");
 	int size = 0;
 	if (scanf("%d", &size) == 0) {
@@ -50,10 +51,16 @@ int main(void) {
 // !!! DO NOT MODIFY THE CODE ABOVE !!!
 ////////////////////////////////////////////////////////////////////////
 // Your task
-
+int doListSum(struct node *curr) {
+	// TODO
+	if (curr == NULL) {
+		return 0;
+	}
+	return curr->value + doListSum(curr->next);
+}
 int listSum(struct list *list) {
 	// TODO
-	return 0;
+	return doListSum(list->head);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -119,4 +126,3 @@ void freeList(struct list *l) {
 	}
 	free(l);
 }
-

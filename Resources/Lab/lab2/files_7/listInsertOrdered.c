@@ -3,7 +3,6 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-
 struct node {
 	int value;
 	struct node *next;
@@ -14,7 +13,7 @@ struct list {
 };
 
 void listInsertOrdered(struct list *list, int value);
-
+struct node *doListInsertOrdered(struct node *curr, int value);
 struct list *readList(int size);
 struct node *newNode(int value);
 bool listIsSorted(struct list *l);
@@ -22,6 +21,7 @@ void printList(struct list *l);
 void freeList(struct list *l);
 
 int main(void) {
+	freopen("input.txt", "r", stdin);
 	printf("Enter list size: ");
 	int size = 0;
 	if (scanf("%d", &size) == 0) {
@@ -64,9 +64,30 @@ int main(void) {
 // !!! DO NOT MODIFY THE CODE ABOVE !!!
 ////////////////////////////////////////////////////////////////////////
 // Your task
-
+struct node *doListInsertOrdered(struct node *curr, int value) {
+	// TODO
+	if (curr == NULL) {
+		return newNode(value);
+	}
+	
+	if (curr->value > value) {
+		struct node *new = newNode(value);
+		new->next = curr;
+		return new;
+	}
+	
+	curr->next = doListInsertOrdered(curr->next, value);
+	return curr;
+}
 void listInsertOrdered(struct list *list, int value) {
 	// TODO
+	if (list->head == NULL) {
+		list->head = newNode(value);
+	} else {
+		list->head = doListInsertOrdered(list->head, value);
+	}
+	
+	
 }
 
 ////////////////////////////////////////////////////////////////////////

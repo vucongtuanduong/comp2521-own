@@ -1,8 +1,9 @@
-
+#include <bits/stdc++.h>
 #include <assert.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+using namespace std;
 
 struct node {
 	int value;
@@ -16,6 +17,7 @@ void printList(struct node *list);
 void freeList(struct node *list);
 
 int main(void) {
+	freopen("input.txt", "r", stdin);
 	printf("Enter list size: ");
 	int size = 0;
 	if (scanf("%d", &size) == 0) {
@@ -46,7 +48,11 @@ int main(void) {
 
 int listTail(struct node *list) {
 	// TODO
-	return 0;
+	if (list->next == NULL) {
+		return list->value;
+	}
+	return listTail(list->next);
+	// return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -62,7 +68,7 @@ struct node *readList(int size) {
 			break;
 		}
 
-		struct node *n = malloc(sizeof(struct node));
+		struct node *n = new node;
 		if (n == NULL) {
 			fprintf(stderr, "error: out of memory\n");
 			exit(EXIT_FAILURE);

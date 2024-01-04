@@ -14,13 +14,14 @@ struct list {
 };
 
 void listInsertNth(struct list *list, int n, int value);
-
+struct node *doListInsertNth(struct node *curr, int n, int value);
 struct list *readList(int size);
 struct node *newNode(int value);
 void printList(struct list *l);
 void freeList(struct list *l);
 
 int main(void) {
+	freopen("input.txt", "r", stdin);
 	printf("Enter list size: ");
 	int size = 0;
 	if (scanf("%d", &size) == 0) {
@@ -63,9 +64,24 @@ int main(void) {
 // !!! DO NOT MODIFY THE CODE ABOVE !!!
 ////////////////////////////////////////////////////////////////////////
 // Your task
+struct node *doListInsertNth(struct node *curr, int n, int value) {
 
+	if (n == 0 || curr == NULL) {
+		
+		struct node *new = newNode(value);
+		new->next = curr;
+		return new;
+	}
+	curr->next =  doListInsertNth(curr->next, n - 1, value);
+	return curr;
+}
 void listInsertNth(struct list *list, int n, int value) {
 	// TODO
+	if (list->head == NULL) {
+		list->head = newNode(value);
+		return;
+	}
+	list->head = doListInsertNth(list->head, n, value);
 }
 
 ////////////////////////////////////////////////////////////////////////

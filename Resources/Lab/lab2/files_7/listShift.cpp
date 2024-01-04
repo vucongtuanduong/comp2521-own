@@ -1,40 +1,47 @@
-
+#include <bits/stdc++.h>
 #include <assert.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+using namespace std;
 
 struct node {
 	int value;
 	struct node *next;
 };
 
-int listMax(struct node *list);
+struct node *listShift(struct node *list);
 
 struct node *readList(int size);
+struct node *newNode(int value);
 void printList(struct node *list);
 void freeList(struct node *list);
 
 int main(void) {
+	freopen("input.txt", "r", stdin);
 	printf("Enter list size: ");
 	int size = 0;
-	if (scanf("%d", &size) == 0) {
+	if (scanf("%d", &size) != 1) {
 		fprintf(stderr, "error: failed to read list size\n");
 		exit(EXIT_FAILURE);
-	} else if (size <= 0) {
+	} else if (size < 0) {
 		fprintf(stderr, "error: invalid list size\n");
 		exit(EXIT_FAILURE);
 	}
 
-	printf("Enter list values: ");
+	if (size > 0) {
+		printf("Enter list values: ");
+	}
 	struct node *list = readList(size);
 
 	printf("List: ");
 	printList(list);
 	printf("\n");
 
-	int max = listMax(list);
-	printf("The maximum element is: %d\n", max);
+	list = listShift(list);
+	printf("List after shifting: ");
+	printList(list);
+	printf("\n");
 
 	freeList(list);
 	return 0;
@@ -44,41 +51,48 @@ int main(void) {
 ////////////////////////////////////////////////////////////////////////
 // Your task
 
-int listMax(struct node *list) {
-	// TODO
-	return 0;
+struct node *listShift(struct node *list) {
+	//TO DO
+    if (list->next == NULL) {
+		return list;
+	}
+	return listShift(list->next);
 }
 
 ////////////////////////////////////////////////////////////////////////
 // !!! DO NOT MODIFY THE CODE BELOW !!!
 
 struct node *readList(int size) {
-	struct node *head = NULL;
+	struct node *list = NULL;
 	struct node *curr = NULL;
-
 	for (int i = 0; i < size; i++) {
-		int value;
+		int value = 0;
 		if (scanf("%d", &value) != 1) {
-			break;
-		}
-
-		struct node *n = malloc(sizeof(struct node));
-		if (n == NULL) {
-			fprintf(stderr, "error: out of memory\n");
+			fprintf(stderr, "error: failed to read list value\n");
 			exit(EXIT_FAILURE);
 		}
-		n->value = value;
-		n->next = NULL;
 
-		if (head == NULL) {
-			head = n;
+		struct node *newN = newNode(value);
+		if (list == NULL) {
+			list = newN;
 		} else {
-			curr->next = n;
+			curr->next = newN;
 		}
-		curr = n;
+		curr = newN;
+	}
+	return list;
+}
+
+struct node *newNode(int value) {
+	struct node *newN = new node;
+	if (newN == NULL) {
+		fprintf(stderr, "error: out of memory\n");
+		exit(EXIT_FAILURE);
 	}
 
-	return head;
+	newN->value = value;
+	newN->next = NULL;
+	return newN;
 }
 
 void printList(struct node *list) {
