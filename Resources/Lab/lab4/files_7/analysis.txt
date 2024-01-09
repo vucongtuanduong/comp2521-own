@@ -9,9 +9,9 @@ NOTE:
   bstNumLeaves
 =================
 
-- Worst case time complexity: O(...)
+- Worst case time complexity: O(h)
 
-- Explanation: ...
+- Explanation: in the worst case, it will recursive until the left/right is null, and it is the height of the tree
 
 =================
     bstRange

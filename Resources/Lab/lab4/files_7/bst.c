@@ -93,13 +93,47 @@ void bstShow(struct node *t) {
 // Returns the number of leaves in the given BST
 int bstNumLeaves(struct node *t) {
 	// TODO: Task 1 - Implement this function
-	return 0;
+	if (t == NULL) {
+		return 0;
+	} else if (t->left == NULL && t->right == NULL) {
+		return 1;
+	} else {
+		return bstNumLeaves(t->left) + bstNumLeaves(t->right);
+	}
+	
 }
-
+int findMin(struct node *t) {
+	if (t == NULL) {
+		return -1;
+	} else if (t->left == NULL) {
+		return t->value;
+	} else {
+		return findMin(t->left);
+	}
+}
+int findMax(struct node *t) {
+	if (t == NULL) {
+		return -1;
+	} else if (t->right == NULL) {
+		return t->value;
+	} else {
+		return findMax(t->right);
+	}
+}
 // Returns the range of the given BST
 int bstRange(struct node *t) {
 	// TODO: Task 2 - Implement this function
-	return 0;
+	if (t == NULL) {
+		return -1;
+	}
+	if (t->left == NULL && t->right == NULL) {
+		return t->value;
+	}
+	
+	int min = findMin(t);
+	int max = findMax(t);
+	return max - min;
+
 }
 
 // Deletes all of the leaves in the given BST and returns the root of
