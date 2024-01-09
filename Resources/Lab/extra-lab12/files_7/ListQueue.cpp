@@ -1,11 +1,12 @@
 // Implementation of the Queue ADT using a linked list
 
+#include <bits/stdc++.h>
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 #include "Queue.h"
-
+using namespace std;
 // DO NOT modify these structs
 struct node {
 	Item item;
@@ -17,16 +18,7 @@ struct queue {
 	struct node *tail;
 	int size;
 };
-struct node *newNode(Item it) {
-	struct node *n = malloc(sizeof(*n));
-	if (n == NULL) {
-		fprintf(stderr, "couldn't allocate node\n");
-		exit(EXIT_FAILURE);
-	}
-	n->item = it;
-	n->next = NULL;
-	return n;
-}
+
 /**
  * Creates a new empty queue
  */
@@ -61,19 +53,6 @@ void QueueFree(Queue q) {
  */
 void QueueEnqueue(Queue q, Item it) {
 	// TODO
-	struct node *n = newNode(it);
-	if (q->size == 0) {
-		
-		q->head = n;
-		q->tail = n;
-		q->size++;
-	} else {
-		q->tail->next = n;
-		q->tail = n;
-		q->size++;
-
-	}
-
 }
 
 /**
@@ -82,12 +61,7 @@ void QueueEnqueue(Queue q, Item it) {
  */
 Item QueueDequeue(Queue q) {
 	// TODO
-	struct node *temp = q->head;
-	Item item = temp->item;
-	q->head = q->head->next;
-	free(temp);
-	q->size--;
-	return item;
+	return 0;
 }
 
 /**
