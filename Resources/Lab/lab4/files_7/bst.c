@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sysexits.h>
-
+#include <limits.h>
 #include "bst.h"
 #include "Queue.h"
 
@@ -140,14 +140,40 @@ int bstRange(struct node *t) {
 // the updated BST
 struct node *bstDeleteLeaves(struct node *t) {
 	// TODO: Task 3 - Implement this function
+	if (t == NULL) {
+		return NULL;
+	}
+	if (t->left == NULL && t->right == NULL) {
+		free(t);
+		return NULL;
+	}
+	t->left = bstDeleteLeaves(t->left);
+	t->right = bstDeleteLeaves(t->right);
+
+	
 	return t;
+	
 }
 
 // Returns the value in the BST which is closest to the given value
 // Assumes that the BST is not empty
 int bstClosest(struct node *t, int val) {
 	// TODO: Task 4 - Implement this function
-	return -1;
+	if (t == NULL) {
+		return INT_MAX;
+	}
+	if (t->value == val) {
+		return val;
+	}
+	int closest = (val < t->value) ? bstClosest(t->left, val) : bstClosest(t->right, val);
+	// If the subtree does not exist or the current node is closer to the value, return the current node's value
+    if (closest == INT_MAX || abs(t->value - val) < abs(closest- val)) {
+        return t->value;
+    }
+
+    // Otherwise, return the closest value in the subtree
+    return closest;
+	
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -182,6 +208,24 @@ void bstPostOrder(struct node *t) {
 // Prints the level-order traversal of the given BST
 void bstLevelOrder(struct node *t) {
 	// TODO: Task 5 - Implement this function
+	if (t == NULL) {
+		return;
+	}
+	Queue q = QueueNew();
+	QueueEnqueue(q, t);
+	while (!QueueIsEmpty(q)) {
+		struct node *curr = QueueDequeue(q);
+		showBstNode(curr);
+		if (curr->left != NULL) {
+			QueueEnqueue(q, curr->left);
+		}
+		if (curr->right != NULL) {
+			QueueEnqueue(q, curr->right);
+		}
+
+	}
+	QueueFree(q);
+
 }
 
 // Prints the value in the given node

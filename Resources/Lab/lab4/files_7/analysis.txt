@@ -9,32 +9,32 @@ NOTE:
   bstNumLeaves
 =================
 
-- Worst case time complexity: O(h)
+- Worst case time complexity: O(n)
 
-- Explanation: in the worst case, it will recursive until the left/right is null, and it is the height of the tree
+- Explanation: in the worst case, the function needs to visit every node in the tree to check if it's a leaf node. Since each node is visited exactly once, the time complexity is proportional to the number of nodes in the tree.
 
 =================
     bstRange
 =================
 
-- Worst case time complexity: O(...)
+- Worst case time complexity: O(h)
 
-- Explanation: ...
+- Explanation: in the worst case, the function needs to traverse down the leftmost and rightmost paths of the tree to find the minimum and maximum values, respectively. Since this involves traversing a path from the root to a leaf, the time complexity is proportional to the height of the tree.
 
 =================
- bstDeleteLeaves
+  bstDeleteLeaves
 =================
 
-- Worst case time complexity: O(...)
+- Worst case time complexity: O(n)
 
-- Explanation: ...
+- Explanation: in the worst case, the function needs to visit every node in the tree to check if it's a leaf node. Since each node is visited exactly once, the time complexity is proportional to the number of nodes in the tree.
 
 =================
   bstLevelOrder
 =================
 
-- Worst case time complexity: O(...)
+- Worst case time complexity: O(n)
 
-- Explanation: ...
+- Explanation: in the worst case, the function needs to visit every node in the tree. Since each node is enqueued and dequeued exactly once, the time complexity is proportional to the number of nodes in the tree.
 
 
