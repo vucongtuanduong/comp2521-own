@@ -1,12 +1,9 @@
 #pragma once
 #include <bits/stdc++.h>
 using namespace std;
-struct node {
-    int value;
-    node *left;
-    node *right;
-}
-static node *newNode(int val);
+typedef struct node node;
+
+
 /*
 Given a BST t and a value v, insert v into the BST and return the root of the updated BST
 */
