@@ -92,9 +92,36 @@ void GraphInsertEdge(Graph g, Vertex v, Vertex w) {
 
 	// TODO - exercise for you
 	// Note that adjacency lists should be in ascending order
-    struct adjNode *n = malloc(sizeof(struct adjNode));
-    n->v = w;
-    n->next = g->edges[v];
+    struct adjNode *newNode = malloc(sizeof(struct adjNode));
+	newNode->v = w;
+	newNode->next = NULL;
+	struct adjNode *newNode2 = malloc(sizeof(struct adjNode));
+	newNode2->v = v;
+	newNode2->next = NULL;
+	g->nE++;
+	if (g->edges[v] == NULL || g->edges[v]->v > w) {
+		newNode->next = g->edges[v];
+		g->edges[v] = newNode;
+
+	} else {
+		struct adjNode *curr = g->edges[v];
+		while (curr->next != NULL && curr->next->v < w) {
+			curr = curr->next;
+		}
+		newNode->next = curr->next;
+		curr->next = newNode;
+	}
+	if (g->edges[w] == NULL || g->edges[w]->v > v) {
+		newNode2->next = g->edges[w];
+		g->edges[w] = newNode2;
+	} else {
+		struct adjNode *curr = g->edges[w];
+		while (curr->next != NULL && curr->next->v < v) {
+			curr = curr->next;
+		}
+		newNode2->next = curr->next;
+		curr->next = newNode2;
+	}
 }
 
 /**
@@ -105,6 +132,33 @@ void GraphRemoveEdge(Graph g, Vertex v, Vertex w) {
 	assert(validVertex(g, w));
 
 	// TODO - exercise for you
+	g->nE--;
+	if (g->edges[v]->v == w) {
+		struct adjNode *temp = g->edges[v];
+		g->edges[v] = g->edges[v]->next;
+		free(temp);
+	} else {
+		struct adjNode *curr = g->edges[v];
+		while (curr->next != NULL && curr->next->v != w) {
+			curr = curr->next;
+		}
+		struct adjNode *temp = curr->next;
+		curr->next = curr->next->next;
+		free(temp);
+	}
+	if (g->edges[w]->v == v) {
+		struct adjNode *temp = g->edges[w];
+		g->edges[w] = g->edges[w]->next;
+		free(temp);
+	} else {
+		struct adjNode *curr = g->edges[w];
+		while (curr->next != NULL && curr->next->v != v) {
+			curr = curr->next;
+		}
+		struct adjNode *temp = curr->next;
+		curr->next = curr->next->next;
+		free(temp);
+	}
 }
 
 /**
@@ -113,7 +167,12 @@ void GraphRemoveEdge(Graph g, Vertex v, Vertex w) {
 int GraphDegree(Graph g, Vertex v) {
 	assert(validVertex(g, v));
 
-	return -1;
+	int degree = 0;
+	struct adjNode *curr = g->edges[v];
+	for (; curr != NULL; curr = curr->next) {
+		degree++;
+	}
+	return degree;
 }
 
 /**

@@ -68,11 +68,11 @@ bool GraphIsAdjacent(Graph g, Vertex v, Vertex w) {
 	assert(validVertex(g, v));
 	assert(validVertex(g, w));
 
-	for (int i = 0; i < g->nE; i++) {
-		if ((g->edges[i].v == v && g->edges[i].w == w) ||
-				(g->edges[i].v == w && g->edges[i].w == v)) {
+	for (Vertex i = 0; i < g->nE; i++) {
+		if ((g->edges[i].v == v && g->edges[i].w == w) || (g->edges[i].v == w && g->edges[i].w == v)) {
 			return true;
 		}
+		
 	}
 	return false;
 }
@@ -101,9 +101,8 @@ void GraphRemoveEdge(Graph g, Vertex v, Vertex w) {
 	assert(validVertex(g, v));
 	assert(validVertex(g, w));
 
-	for (int i = 0; i < g->nE; i++) {
-		if ((g->edges[i].v == v && g->edges[i].w == w) ||
-				(g->edges[i].v == w && g->edges[i].w == v)) {
+	for (Vertex i  = 0; i < g->nE; i++) {
+		if ((g->edges[i].v == v && g->edges[i].w == w) || (g->edges[i].v == w && g->edges[i].w == v)) {
 			g->edges[i] = g->edges[g->nE - 1];
 			g->nE--;
 			return;
@@ -118,7 +117,7 @@ int GraphDegree(Graph g, Vertex v) {
 	assert(validVertex(g, v));
 
 	int degree = 0;
-	for (int i = 0; i < g->nE; i++) {
+	for (Vertex i  = 0; i < g->nE; i++) {
 		if (g->edges[i].v == v || g->edges[i].w == v) {
 			degree++;
 		}
