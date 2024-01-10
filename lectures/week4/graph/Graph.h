@@ -1,6 +1,14 @@
-#pragma once
-#include <bits/stdc++.h>
-typedef struct Graph Graph;
+// Interface to the Graph ADT
+// Undirected, unweighted
+// Vertices are given by integers between 0 and V - 1
+
+#ifndef GRAPH_H
+#define GRAPH_H
+
+#include <stdbool.h>
+
+typedef struct graph *Graph;
+
 typedef int Vertex;
 
 /**
@@ -48,3 +56,6 @@ int GraphDegree(Graph g, Vertex v);
  * Displays a graph
  */
 void GraphShow(Graph g);
+
+#endif
+
