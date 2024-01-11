@@ -166,12 +166,36 @@ bool FbIsFriend(Fb fb, char *name1, char *name2) {
 
 int FbNumFriends(Fb fb, char *name) {
     // TODO: Complete this function
-    
+    int id = nameToId(fb, name);
+    struct adjNode *curr = fb->adj[id];
+    int count = 0;
+    for (; curr != NULL; curr = curr->next) {
+        count++;
+
+    }
+    return count;
 
 }
 
 bool FbUnfriend(Fb fb, char *name1, char *name2) {
     // TODO: Complete this function
+    int id1 = nameToId(fb, name1);
+    int id2 = nameToId(fb, name2);
+    struct adjNode *curr = fb->adj[id1];
+    struct adjNode *prev = NULL;
+    while (curr != NULL) {
+        if (curr->v == id2) {
+            if (prev == NULL) {
+                fb->adj[id1] = curr->next;
+            } else {
+                prev->next = curr->next;
+            }
+            free(curr);
+            return true;
+        }
+        prev = curr;
+        curr = curr->next;
+    }
     return false;
 }
 
