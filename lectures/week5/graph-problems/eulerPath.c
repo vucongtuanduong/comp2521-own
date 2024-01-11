@@ -6,6 +6,7 @@
 #include "Graph.h"
 #include "GraphPrivate.h"
 
+bool hasEulerCircuit(Graph g);
 static bool hasEulerPath(Graph g);
 static int degree(Graph g, Vertex v);
 static bool eulerConnected(Graph g);
@@ -76,3 +77,11 @@ static void dfsRec(Graph g, Vertex v, bool *visited) {
 	}
 }
 
+bool hasEulerCircuit(Graph g) {
+	for (Vertex v = 0; v < g->nV; v++) {
+		if (degree(g, v) % 2 == 1) {
+			return false;
+		}
+	}
+	return eulerConnected(g);
+}

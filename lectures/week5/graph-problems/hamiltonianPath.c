@@ -10,6 +10,10 @@ static bool hasHamiltonianPath(Graph g);
 
 static bool dfsHamiltonianPath(Graph g, Vertex v, bool *visited, int numVerticesLeft);
 
+bool hasHamiltonianCircuit(Graph g);
+
+static bool dfsHamiltonianCircuit(Graph g, Vertex v, bool *visited, int numVerticesLeft);
+
 int main(void) {
 	Graph g = GraphRead(stdin);
 	
@@ -40,22 +44,51 @@ static bool hasHamiltonianPath(Graph g) {
 static bool dfsHamiltonianPath(Graph g, Vertex v, bool *visited, int numVerticesLeft) {
 	visited[v] = true;
 	numVerticesLeft--;
-
 	if (numVerticesLeft == 0) {
 		return true;
 	}
-
 	struct adjNode *curr = g->edges[v];
 	for (; curr != NULL; curr = curr->next) {
 		Vertex w = curr->v;
 		if (!visited[w]) {
-			if (dfsHamiltonianPath(g, w, visited, numVerticesLeft)) {
+			if (dfsHamiltonianPath(g,w, visited, numVerticesLeft)) {
 				return true;
 			}
 		}
 	}
-
 	visited[v] = false;
 	return false;
 }
+	
+bool hasHamiltonianCircuit(Graph g) {
+	bool *visited = calloc(g->nV, sizeof(bool));
+
+	for (Vertex v = 0; v < g->nV; v++) {
+		if (dfsHamiltonianCircuit(g, v, visited, g->nV)) {
+			free(visited);
+			return true;
+		}
+	}
+	free(visited);
+	return false;
+}
+
+static bool dfsHamiltonianCircuit(Graph g, Vertex v, bool *visited, int numVerticesLeft) {
+	visited[v] = true;
+	numVerticesLeft--;
+	if (numVerticesLeft == 0) {
+		return GraphIsAdjacent(g, v, 0);
+	}
+	struct adjNode *curr = g->edges[v];
+	for (; curr != NULL; curr = curr->next) {
+		Vertex w = curr->v;
+		if (!visited[w]) {
+			if (dfsHamiltonianCircuit(g, w, visited, numVerticesLeft)) {
+				return true;
+			}
+		}
+	}
+	visited[v] = false;
+	return false; 
+};
 
