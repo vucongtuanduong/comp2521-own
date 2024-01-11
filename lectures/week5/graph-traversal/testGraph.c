@@ -7,6 +7,7 @@
 void bfs(Graph g, Vertex v);
 void findPathBfs(Graph g, Vertex src, Vertex dest);
 void dfs(Graph g, Vertex v);
+bool hasPath(Graph g, Vertex src, Vertex dest);
 
 int main(int argc, char *argv[]) {
 	Graph g = GraphNew(10);
@@ -27,12 +28,19 @@ int main(int argc, char *argv[]) {
 	GraphInsertEdge(g, 7, 9);
 	GraphInsertEdge(g, 8, 9);
 
-	bfs(g, 0);
+	// bfs(g, 0);
 
-	//findPathBfs(g, 0, 8);
+	// findPathBfs(g, 0, 8);
 
-	//dfs(g, 0);
+	// dfs(g, 0);
 
+	Vertex source = 6;
+	Vertex dest = 9;
+	if (hasPath(g, source, dest)) {
+		printf("There is a path from %d to %d\n", source, dest);
+	} else {
+		printf("There is no path from %d to %d\n", source, dest);
+	}
 	GraphFree(g);
 }
 
