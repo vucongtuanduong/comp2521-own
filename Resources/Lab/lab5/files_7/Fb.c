@@ -166,8 +166,8 @@ bool FbIsFriend(Fb fb, char *name1, char *name2) {
 
 int FbNumFriends(Fb fb, char *name) {
     // TODO: Complete this function
-
     
+
 }
 
 bool FbUnfriend(Fb fb, char *name1, char *name2) {
