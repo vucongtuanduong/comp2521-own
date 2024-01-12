@@ -1,0 +1,14 @@
++ harry
++ ron
++ hermione
+f harry ron
+f ron hermione
+s harry ron 
+n harry
+n ron
+s harry hermione 
+m harry hermione 
+r harry 
+u harry ron
+s harry ron 
+q

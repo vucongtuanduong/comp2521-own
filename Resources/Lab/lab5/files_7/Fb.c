@@ -176,17 +176,13 @@ int FbNumFriends(Fb fb, char *name) {
     return count;
 
 }
-
-bool FbUnfriend(Fb fb, char *name1, char *name2) {
-    // TODO: Complete this function
-    int id1 = nameToId(fb, name1);
-    int id2 = nameToId(fb, name2);
-    struct adjNode *curr = fb->adj[id1];
+bool removeFriend(struct adjNode **head, int id1, int id2) {
+    struct adjNode *curr = *head;
     struct adjNode *prev = NULL;
     while (curr != NULL) {
         if (curr->v == id2) {
             if (prev == NULL) {
-                fb->adj[id1] = curr->next;
+                *head = curr->next;
             } else {
                 prev->next = curr->next;
             }
@@ -198,16 +194,56 @@ bool FbUnfriend(Fb fb, char *name1, char *name2) {
     }
     return false;
 }
+bool FbUnfriend(Fb fb, char *name1, char *name2) {
+    // TODO: Complete this function
+    int id1 = nameToId(fb, name1);
+    int id2 = nameToId(fb, name2);
+    
+    if (removeFriend(&fb->adj[id1], id1, id2) && removeFriend(&fb->adj[id2], id2, id1)) {
+        return true;
+    } else {
+        return false;
+    }
+}
 
 List FbMutualFriends(Fb fb, char *name1, char *name2) {
     // TODO: Complete this function
     List l = ListNew();
+    int id1 = nameToId(fb, name1);
+    int id2 = nameToId(fb, name2);
+    struct adjNode *curr = fb->adj[id1];
+    while (curr != NULL) {
+        if (inAdjList(fb->adj[id2], curr->v)) {
+            ListAppend(l, fb->names[curr->v]);
+        }
+        curr = curr->next;
+    }
+
     return l;
 }
 
 int FbFriendRecs1(Fb fb, char *name, struct recommendation recs[]) {
     // TODO: Complete this function
-    return 0;
+    int id = nameToId(fb, name);
+    int count = 0;
+    for (int i = 0; i < fb->numPeople; i++) {
+        if (i != id && !inAdjList(fb->adj[id], i)) {
+            int numMutual = 0;
+            struct adjNode *curr = fb->adj[i];
+            while (curr != NULL) {
+                if (inAdjList(fb->adj[id], curr->v)) {
+                    numMutual++;
+                }
+                curr = curr->next;
+            }
+            if (numMutual > 0) {
+                recs[count].name = fb->names[i];
+                recs[count].numMutualFriends = numMutual;
+                count++;
+            }
+        }
+    }
+    return count;
 }
 
 ////////////////////////////////////////////////////////////////////////
